@@ -239,7 +239,6 @@ class Platformer(App):
         self.KillList = []
             
     def killMe(self, obj):
-        print("killing ", obj)
         if obj in self.FallingSprings:
             self.FallingSprings.remove(obj)
         elif obj == self.p:
