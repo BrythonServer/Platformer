@@ -227,12 +227,10 @@ class Platformer(App):
             self.p.step()
         for s in self.FallingSprings:
             s.step()
-            """
         for t in Platformer.getSpritesbyClass(Turret):
             t.step()
         for b in Platformer.getSpritesbyClass(Bolt):
             b.step()
-            """
         for k in self.KillList:
             k.destroy()
         self.KillList = []
