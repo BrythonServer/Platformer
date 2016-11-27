@@ -1,13 +1,14 @@
 # Exemplar implementation of the Platformer Project
 
-from ggame import App, Sprite
+from ggame import App, Sprite, RectangleAsset, LineStyle, Color
    
 # A super wall class for wall-ish behaviors
-class GenericWall(Actor):
-    def __init__(self, x, y, w, h, color, actor_list):
+class GenericWall(Sprite):
+    def __init__(self, x, y, w, h, color):
         snapfunc = lambda X : X - X % w
-        super().__init__(snapfunc(x), snapfunc(y), 
-                         w, h, actor_list)
+        super().__init__(
+            RectangleAsset(w,h,LineStyle(0,Color(0))),
+            (snapfunc(x), snapfunc(y)))
         self.color = color
         self.draw()
         # destroy any overlapping walls
