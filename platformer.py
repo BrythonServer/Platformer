@@ -10,14 +10,14 @@ class GenericWall(Sprite):
             RectangleAsset(w,h,LineStyle(0,Color(0, 1.0)), color),
             (snapfunc(x), snapfunc(y)))
         # destroy any overlapping walls
-        collideswith = self.collidingWithSprites(class(self))
+        collideswith = self.collidingWithSprites(type(self))
         if len(collideswith):
             collideswith[0].destroy()
 
 # impenetrable wall (black)
 class Wall(GenericWall):
     def __init__(self, x, y):
-        super().__init__(x, y, 50, 50, Color(0, 1.0))
+        super().__init__(x, y, 49, 49, Color(0, 1.0))
 
 # pass thru going up wall
 class Platform(GenericWall):
