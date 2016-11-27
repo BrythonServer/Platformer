@@ -10,7 +10,7 @@ class GenericWall(Sprite):
             RectangleAsset(w,h,LineStyle(0,Color(0, 1.0)), color),
             (snapfunc(x), snapfunc(y)))
         # destroy any overlapping walls
-        collideswith = self.collidingWithSprites(GenericWall)
+        collideswith = self.collidingWithSprites(class(self))
         if len(collideswith):
             collideswith[0].destroy()
 
@@ -206,7 +206,6 @@ class Platformer(App):
         self.p = Player(self.pos[0], self.pos[1], self)
     
     def newSpring(self, event):
-        print("new spring")
         self.FallingSprings.append(Spring(self.pos[0], self.pos[1], self))
     
     def newFloor(self, event):
