@@ -168,8 +168,8 @@ class Spring(GravityActor):
         super().__init__(x-w//2, y-h//2, w, h, Color(0x0000ff, 1.0), app)
         
     def step(self):
-        #if self.resting:
-        #    self.app.FallingSprings.remove(self)
+        if self.resting:
+            self.app.FallingSprings.remove(self)
         super().step()
 
 # The application class. Subclass of App
@@ -237,6 +237,7 @@ class Platformer(App):
             k.destroy()
             
     def killMe(self, obj):
+        print("killing ", obj)
         self.KillList.append(obj)
         
 # Execute the application by instantiate and run        
