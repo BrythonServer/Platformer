@@ -213,7 +213,7 @@ class Platformer(App):
         Spring(self.pos[0], self.pos[1], self)
     
     def newFloor(self, event):
-        Platform(self.pos[0], self.pos[1], self)
+        Platform(self.pos[0], self.pos[1])
         
     def newLaser(self, event):
         Turret(self.pos[0], self.pos[1], self)
