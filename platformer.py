@@ -203,7 +203,7 @@ class Platformer(App):
         Wall(self.pos[0], self.pos[1])
         
     def newPlayer(self, event):
-        if self.p:
+        if self.p != None:
             self.p.destroy()
         self.p = Player(self.pos[0], self.pos[1], self)
     
