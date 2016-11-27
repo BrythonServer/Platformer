@@ -191,6 +191,7 @@ class Platformer(App):
     def __init__(self):
         super().__init__()
         self.p = None
+        self.pos = (0,0)
         self.listenKeyEvent("keypress", "w", self.newWall)
         self.listenKeyEvent("keypress", "p", self.newPlayer)
         self.listenKeyEvent("keypress", "s", self.newSpring)
@@ -204,38 +205,34 @@ class Platformer(App):
         self.listenKeyEvent("keyup", "up arrow", self.stopMoveKey)
         self.listenMouseEvent("mousemove", self.moveMouse)
     
-    de
+    def moveMouse(self, event):
+        self.pos = (event.x, event.y)
     
     def newWall(self, event):
+        Wall(self.pos[0], self.pos[1])
         
+    def newPlayer(self, event):
+        if self.p:
+            self.p.destroy()
+        self.p = Player(self.pos[0], self.pos[1], self)
+    
+    def newSpring(self, event):
+        Spring(self.pos[0], self.pos[1], self)
+    
+    def newFloor(self, event):
+        Platform(self.pos[0], self.pos[1], self)
         
-    def handle_event(self, event):
-        pos = pygame.mouse.get_pos()
-        if event.type == KEYDOWN:
-            if event.key == K_q:
-                return False
-            # Build some wall
-            elif event.key == K_w:
-                Wall(pos[0], pos[1], self.spritegroup)
-            # Create a player
-            elif event.key == K_p:
-                if self.p:
-                    self.p.destroy()
-                self.p = Player(pos[0], pos[1], self.spritegroup, self)
-            # Create a spring
-            elif event.key == K_s:
-                Spring(pos[0], pos[1], self.spritegroup, self)
-            # Create a platform (floor)
-            elif event.key == K_f:
-                Platform(pos[0], pos[1], self.spritegroup)
-            # Create a laser turret
-            elif event.key == K_l:
-                Turret(pos[0], pos[1], self.spritegroup, self)
-            # Handle player movements
-            elif event.key in (K_UP, K_LEFT, K_RIGHT):
-                self.p.move(event.key)
-        return True
-
+    def newLaser(self, event):
+        Turret(self.pos[0], self.pos[1], self)
+        
+    def moveKey(self, event):
+        if self.p:
+            self.p.move(event.key)
+        
+    def stopMoveKey(self, event):
+        if self.p:
+            self.p.stopMove(event.key)
+        
 
         
 # Execute the application by instantiate and run        
