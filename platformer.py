@@ -23,27 +23,33 @@ class Wall(GenericWall):
 class Platform(GenericWall):
     def __init__(self, x, y):
         super().__init__(x, y, 50, 15, Color(0xff0000, 1.0))
-"""    
+    
 # super class for anything that falls and lands or bumps into walls
-class GravityActor(Actor):
-    def __init__(self, x, y, width, height, actor_list, app):
+class GravityActor(Sprite):
+    def __init__(self, x, y, width, height, color, app):
         self.vx = self.vy = 0
         self.stuck = False
         self.color = pygame.Color('black')
         self.app = app                          # app, need to know
         self.sitting = False                    # whether resting on wall
-        super().__init__(x, y, width, height, actor_list)
+        super().__init__(
+            RectangleAsset(
+                width, height, 
+                LineStyle(0, Color(0, 1.0)),
+                color)
+            (x, y)) 
         # destroy self if overlapping with anything
-        collideswith = self.overlapping_actors()
+        collideswith = self.collidingWithSprites()
         if len(collideswith):
             self.destroy()
         
-    def update(self):
+    def step(self):
         # note the original position
-        oldpos = self.rect.copy()
+        x, y = self.x, self.y
         # process movement in horizontal direction first
         self.x += self.vx
-        collides = self.overlapping_actors(GenericWall)
+        collides = self.collidingWithSprites(Wall)
+        collides.extend(self.collidingWithSprites(Platform))
         for collider in collides:
             if self.vx > 0 or self.vx < 0:
                 if self.vx > 0:
@@ -53,7 +59,8 @@ class GravityActor(Actor):
                 self.vx = 0
         # then process movement in vertical direction
         self.y += self.vy
-        collides = self.overlapping_actors(GenericWall)
+        collides = self.collidingWithSprites(Wall)
+        collides.extend(self.collidingWithSprites(Platform))
         for collider in collides:
             if self.vy > 0 or self.vy < 0:
                 if self.vy > 0:
@@ -67,16 +74,13 @@ class GravityActor(Actor):
         # adjust vertical velocity for acceleration due to gravity
         self.vy += 1
         # check for out of bounds
-        if self.y > self.app.screensize[1]:
+        if self.y > self.app.height:
             self.destroy()
         # only dirty if we moved
         if oldpos != self.rect:
             self.dirty = 1
 
-    def draw(self):
-        pygame.draw.rect(self.image, self.color, self.image.get_rect())
-        self.dirty = 1
-
+"""
 # "bullets" to fire from Turrets.
 class Bolt(Actor):
     def __init__(self, direction, x, y, actor_list, app):
@@ -137,16 +141,15 @@ class Turret(GravityActor):
         pygame.draw.circle(self.image, color, (10,10), 10)
         self.dirty = 1
 
+"""
 # The player class. only one instance of this is allowed.
 class Player(GravityActor):
-    def __init__(self, x, y, actor_list, app):
+    def __init__(self, x, y, app):
         w = 15
         h = 30
-        super().__init__(x-w//2, y-h//2, w, h, actor_list, app)
-        self.color = pygame.Color('green')
-        self.draw()
-        
-    def update(self):
+        super().__init__(x-w//2, y-h//2, w, h, Color(0x00ff00, 1.0), app)
+
+    def step(self):
         # look for spring collisions
         springs = self.overlapping_actors(Spring)
         if len(springs):
@@ -168,17 +171,15 @@ class Player(GravityActor):
         elif key == K_UP and self.resting:
             self.vy = -10
             self.resting = False
-        
+
+  
 # A spring makes the player "bounce" higher than she can jump
 class Spring(GravityActor):
-    def __init__(self, x, y, actor_list, app):
+    def __init__(self, x, app):
         w = 10
         h = 4
-        super().__init__(x-w//2, y-h//2, w, h, actor_list, app)
-        self.color = pygame.Color('blue')
-        self.draw()
-"""
-     
+        super().__init__(x-w//2, y-h//2, w, h, Color(0x0000ff, 1.0), app)
+
 # The application class. Subclass of App
 class Platformer(App):
     def __init__(self):
@@ -226,6 +227,11 @@ class Platformer(App):
         if self.p:
             self.p.stopMove(event.key)
         
+    def step(self):
+        for s in Platformer.getSpritesbyClass(Player):
+            s.step()
+        #for s in Platformer.getSpritesbyClass(Spring):
+        #    s.step()
 
         
 # Execute the application by instantiate and run        
