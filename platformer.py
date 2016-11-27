@@ -110,7 +110,7 @@ class Turret(GravityActor):
         r = 10
         self.time = 0
         self.direction = 1
-        super().__init__(x-w//2, y-h//2, w, h, Color(0xffff00), app)
+        super().__init__(x-w//2, y-h//2, w, h, Color(0xffff00, 1.0), app)
         
     def step(self):
         super().update()
