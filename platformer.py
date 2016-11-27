@@ -43,7 +43,7 @@ class GravityActor(Sprite):
             self.destroy()
         
     def step(self):
-        # then process movement in vertical direction
+        # process movement in vertical direction
         self.y += self.vy
         collides = self.collidingWithSprites(Wall)
         collides.extend(self.collidingWithSprites(Platform))
@@ -57,7 +57,7 @@ class GravityActor(Sprite):
                 elif isinstance(collider, Wall):
                     self.y = collider.y + collider.height
                     self.vy = 0
-        # process movement in horizontal direction first
+        # process movement in horizontal direction second
         self.x += self.vx
         collides = self.collidingWithSprites(Wall)
         collides.extend(self.collidingWithSprites(Platform))
