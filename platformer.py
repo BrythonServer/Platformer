@@ -121,6 +121,7 @@ class Turret(GravityActor):
                  self.y+10,
                  self.app)
             self.direction *= -1
+
         
 
 # The player class. only one instance of this is allowed.
@@ -189,7 +190,7 @@ class Platformer(App):
         self.listenKeyEvent("keyup", "up arrow", self.stopMoveKey)
         self.listenMouseEvent("mousemove", self.moveMouse)
         self.FallingSprings = []
-    
+
     def moveMouse(self, event):
         self.pos = (event.x, event.y)
     
@@ -224,6 +225,8 @@ class Platformer(App):
             self.p.step()
         for s in self.FallingSprings:
             s.step()
+        for t in Platformer.getSpritesbyClass(Turret):
+            t.step()
 
         
 # Execute the application by instantiate and run        
