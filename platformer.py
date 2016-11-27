@@ -180,8 +180,8 @@ class Spring(GravityActor):
         
     def step(self):
         super().step()
-        if self.resting:
-            self.app.FallingSprings.remove(self)
+        #if self.resting:
+        #    self.app.FallingSprings.remove(self)
 
 # The application class. Subclass of App
 class Platformer(App):
