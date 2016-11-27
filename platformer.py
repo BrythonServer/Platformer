@@ -206,6 +206,7 @@ class Platformer(App):
         self.p = Player(self.pos[0], self.pos[1], self)
     
     def newSpring(self, event):
+        print("new spring")
         self.FallingSprings.append(Spring(self.pos[0], self.pos[1], self))
     
     def newFloor(self, event):
