@@ -150,8 +150,6 @@ class Player(GravityActor):
             self.vy = -15
             self.resting = False
                 # check for out of bounds
-        if self.y > self.app.height:
-            self.app.p = None
         super().step()
         
     def move(self, key):
@@ -179,6 +177,11 @@ class Spring(GravityActor):
         w = 10
         h = 4
         super().__init__(x-w//2, y-h//2, w, h, Color(0x0000ff, 1.0), app)
+        
+    def step(self):
+        super().step()
+        if self.resting:
+            self.app.FallingSprings.remove(self)
 
 # The application class. Subclass of App
 class Platformer(App):
@@ -198,6 +201,7 @@ class Platformer(App):
         self.listenKeyEvent("keyup", "right arrow", self.stopMoveKey)
         self.listenKeyEvent("keyup", "up arrow", self.stopMoveKey)
         self.listenMouseEvent("mousemove", self.moveMouse)
+        self.FallingSprings = []
     
     def moveMouse(self, event):
         self.pos = (event.x, event.y)
@@ -206,8 +210,9 @@ class Platformer(App):
         Wall(self.pos[0], self.pos[1])
         
     def newPlayer(self, event):
-        if self.p:
-            self.p.destroy()
+        for p in Platformer.getSpritesbyClass(Player):
+            p.destroy()
+            self.p = None
         self.p = Player(self.pos[0], self.pos[1], self)
     
     def newSpring(self, event):
@@ -228,9 +233,9 @@ class Platformer(App):
             self.p.stopMove(event.key)
         
     def step(self):
-        for s in Platformer.getSpritesbyClass(Player):
-            s.step()
-        for s in Platformer.getSpritesbyClass(Spring):
+        if self.p:
+            self.p.step()
+        for s in self.FallingSprings:
             s.step()
 
         
