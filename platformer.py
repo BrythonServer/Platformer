@@ -186,13 +186,28 @@ class Spring(GravityActor):
         self.draw()
         
      
-# The application class. Subclass of PygameApp
-class Platformer(PygameApp):
+# The application class. Subclass of App
+class Platformer(App):
     def __init__(self):
-        super().__init__(screensize=(800,800), fullscreen=False)
-        self.setbackgroundcolor(pygame.Color('white'))
-        # pygame.key.set_repeat(10)              # allow keys to repeat when held 10 msec
+        super().__init__()
         self.p = None
+        self.listenKeyEvent("keypress", "w", self.newWall)
+        self.listenKeyEvent("keypress", "p", self.newPlayer)
+        self.listenKeyEvent("keypress", "s", self.newSpring)
+        self.listenKeyEvent("keypress", "f", self.newFloor)
+        self.listenKeyEvent("keypress", "l", self.newLaser)
+        self.listenKeyEvent("keydown", "left arrow", self.moveKey)
+        self.listenKeyEvent("keydown", "right arrow", self.moveKey)
+        self.listenKeyEvent("keydown", "up arrow", self.moveKey)
+        self.listenKeyEvent("keyup", "left arrow", self.stopMoveKey)
+        self.listenKeyEvent("keyup", "right arrow", self.stopMoveKey)
+        self.listenKeyEvent("keyup", "up arrow", self.stopMoveKey)
+        self.listenMouseEvent("mousemove", self.moveMouse)
+    
+    de
+    
+    def newWall(self, event):
+        
         
     def handle_event(self, event):
         pos = pygame.mouse.get_pos()
