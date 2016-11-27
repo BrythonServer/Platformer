@@ -35,7 +35,7 @@ class GravityActor(Sprite):
             RectangleAsset(
                 width, height, 
                 LineStyle(0, Color(0, 1.0)),
-                color)
+                color),
             (x, y)) 
         # destroy self if overlapping with anything
         collideswith = self.collidingWithSprites()
