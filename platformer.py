@@ -180,8 +180,8 @@ class Spring(GravityActor):
         
     def step(self):
         super().step()
-        #if self.resting:
-        #    self.app.FallingSprings.remove(self)
+        if self.resting:
+            self.app.FallingSprings.remove(self)
 
 # The application class. Subclass of App
 class Platformer(App):
@@ -216,7 +216,7 @@ class Platformer(App):
         self.p = Player(self.pos[0], self.pos[1], self)
     
     def newSpring(self, event):
-        Spring(self.pos[0], self.pos[1], self)
+        self.FallingSprings.append(Spring(self.pos[0], self.pos[1], self))
     
     def newFloor(self, event):
         Platform(self.pos[0], self.pos[1])
