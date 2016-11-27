@@ -7,7 +7,7 @@ class GenericWall(Sprite):
     def __init__(self, x, y, w, h, color):
         snapfunc = lambda X : X - X % w
         super().__init__(
-            RectangleAsset(w,h,LineStyle(0,Color(0)), color),
+            RectangleAsset(w,h,LineStyle(0,Color(0, 1.0)), color),
             (snapfunc(x), snapfunc(y)))
         # destroy any overlapping walls
         collideswith = self.collidingWithSprites(GenericWall)
@@ -17,7 +17,8 @@ class GenericWall(Sprite):
 # impenetrable wall (black)
 class Wall(GenericWall):
     def __init__(self, x, y):
-        super().__init__(x, y, 50, 50, Color(0, 1.0))   
+        super().__init__(x, y, 50, 50, Color(0, 1.0))
+        #print("new wall")
 
 """             
 # pass thru going up wall
@@ -185,13 +186,14 @@ class Spring(GravityActor):
 class Platformer(App):
     def __init__(self):
         super().__init__()
+        print("in app init")
         self.p = None
         self.pos = (0,0)
-        self.listenKeyEvent("keypress", "w", self.newWall)
-        self.listenKeyEvent("keypress", "p", self.newPlayer)
-        self.listenKeyEvent("keypress", "s", self.newSpring)
-        self.listenKeyEvent("keypress", "f", self.newFloor)
-        self.listenKeyEvent("keypress", "l", self.newLaser)
+        self.listenKeyEvent("keydown", "w", self.newWall)
+        self.listenKeyEvent("keydown", "p", self.newPlayer)
+        self.listenKeyEvent("keydown", "s", self.newSpring)
+        self.listenKeyEvent("keydown", "f", self.newFloor)
+        self.listenKeyEvent("keydown", "l", self.newLaser)
         self.listenKeyEvent("keydown", "left arrow", self.moveKey)
         self.listenKeyEvent("keydown", "right arrow", self.moveKey)
         self.listenKeyEvent("keydown", "up arrow", self.moveKey)
