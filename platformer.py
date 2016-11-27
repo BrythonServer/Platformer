@@ -110,7 +110,6 @@ class Turret(GravityActor):
         r = 10
         self.time = 0
         self.direction = 1
-        self.body = pygame.Rect((0,2*r,w,h-2*r))
         super().__init__(x-w//2, y-h//2, w, h, Color(0xffff00), app)
         
     def step(self):
