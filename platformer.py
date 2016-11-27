@@ -154,7 +154,7 @@ class Player(GravityActor):
         if len(springs):
             self.vy = -15
             self.resting = False
-        super().update()
+        super().step()
         
     def move(self, key):
         if key == "left arrow":
