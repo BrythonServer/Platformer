@@ -81,7 +81,7 @@ class Bolt(Sprite):
         h = 5
         self.direction = direction
         self.app = app
-        super().__init__(RectangleAsset(w, h, Color(0x00ffff)),(x-w//2, y-h//2))
+        super().__init__(RectangleAsset(w, h, Color(0x00ffff, 1.0)),(x-w//2, y-h//2))
 
     def step(self):
         self.x += self.direction
@@ -229,10 +229,8 @@ class Platformer(App):
             s.step()
         for t in Platformer.getSpritesbyClass(Turret):
             t.step()
-            """
         for b in Platformer.getSpritesbyClass(Bolt):
             b.step()
-            """
         for k in self.KillList:
             k.destroy()
         self.KillList = []
