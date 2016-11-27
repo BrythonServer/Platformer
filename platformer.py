@@ -50,7 +50,7 @@ class GravityActor(Sprite):
         for collider in collides:
             if self.vy > 0 or self.vy < 0:
                 if self.vy > 0:
-                    self.y = collider.y - self.height
+                    self.y = collider.y - self.height - 1
                     self.resting = True
                     self.vy = 0
                 # upward collisions for true Wall only
@@ -156,7 +156,8 @@ class Player(GravityActor):
             self.resting = False
             
     def stopMove(self, key):
-        pass
+        if key == "left arrow" or key == "right arrow":
+            self.vx = 0
 
   
 # A spring makes the player "bounce" higher than she can jump
