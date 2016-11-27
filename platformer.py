@@ -9,7 +9,6 @@ class GenericWall(Sprite):
         super().__init__(
             RectangleAsset(w,h,LineStyle(0,Color(0, 1.0)), color),
             (snapfunc(x), snapfunc(y)))
-        self.center = (0.5, 0.5)
         # destroy any overlapping walls
         collideswith = self.collidingWithSprites(GenericWall)
         if len(collideswith):
@@ -38,24 +37,12 @@ class GravityActor(Sprite):
                 LineStyle(0, Color(0, 1.0)),
                 color),
             (x, y)) 
-        self.center = (0.5, 0.5)
         # destroy self if overlapping with anything
         collideswith = self.collidingWithSprites()
         if len(collideswith):
             self.destroy()
         
     def step(self):
-        # process movement in horizontal direction first
-        self.x += self.vx
-        collides = self.collidingWithSprites(Wall)
-        collides.extend(self.collidingWithSprites(Platform))
-        for collider in collides:
-            if self.vx > 0 or self.vx < 0:
-                if self.vx > 0:
-                    self.x = collider.x - self.width
-                else:
-                    self.x = collider.x + collider.width
-                self.vx = 0
         # then process movement in vertical direction
         self.y += self.vy
         collides = self.collidingWithSprites(Wall)
@@ -70,6 +57,17 @@ class GravityActor(Sprite):
                 elif isinstance(collider, Wall):
                     self.y = collider.y + collider.height
                     self.vy = 0
+        # process movement in horizontal direction first
+        self.x += self.vx
+        collides = self.collidingWithSprites(Wall)
+        collides.extend(self.collidingWithSprites(Platform))
+        for collider in collides:
+            if self.vx > 0 or self.vx < 0:
+                if self.vx > 0:
+                    self.x = collider.x - self.width
+                else:
+                    self.x = collider.x + collider.width
+                self.vx = 0
         # adjust vertical velocity for acceleration due to gravity
         self.vy += 1
         # check for out of bounds
@@ -84,8 +82,7 @@ class Bolt(Sprite):
         self.direction = direction
         self.app = app
         super().__init__(RectangleAsset(w, h, Color(0x00ffff)),(x-w//2, y-h//2))
-        self.center = (0.5, 0.5)
-    
+
     def step(self):
         self.x += self.direction
         # check for out of bounds
