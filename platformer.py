@@ -7,25 +7,19 @@ class GenericWall(Sprite):
     def __init__(self, x, y, w, h, color):
         snapfunc = lambda X : X - X % w
         super().__init__(
-            RectangleAsset(w,h,LineStyle(0,Color(0))),
+            RectangleAsset(w,h,LineStyle(0,Color(0)), color),
             (snapfunc(x), snapfunc(y)))
-        self.color = color
-        self.draw()
         # destroy any overlapping walls
-        collideswith = self.overlapping_actors(GenericWall)
+        collideswith = self.collidingWithSprites(GenericWall)
         if len(collideswith):
             collideswith[0].destroy()
-        
-    def draw(self):
-        pygame.draw.rect(self.image, self.color, self.image.get_rect())
-        self.dirty = 1
 
 # impenetrable wall (black)
 class Wall(GenericWall):
-    def __init__(self, x, y, actor_list):
-        super().__init__(x, y, 50, 50, 
-                         pygame.Color('black'), actor_list)   
-             
+    def __init__(self, x, y):
+        super().__init__(x, y, 50, 50, Color(0, 1.0))   
+
+"""             
 # pass thru going up wall
 class Platform(GenericWall):
     def __init__(self, x, y, actor_list):
@@ -185,7 +179,7 @@ class Spring(GravityActor):
         super().__init__(x-w//2, y-h//2, w, h, actor_list, app)
         self.color = pygame.Color('blue')
         self.draw()
-        
+"""
      
 # The application class. Subclass of App
 class Platformer(App):
