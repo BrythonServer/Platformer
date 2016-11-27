@@ -232,8 +232,8 @@ class Platformer(App):
     def step(self):
         for s in Platformer.getSpritesbyClass(Player):
             s.step()
-        #for s in Platformer.getSpritesbyClass(Spring):
-        #    s.step()
+        for s in Platformer.getSpritesbyClass(Spring):
+            s.step()
 
         
 # Execute the application by instantiate and run        
