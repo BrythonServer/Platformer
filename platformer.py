@@ -18,15 +18,12 @@ class GenericWall(Sprite):
 class Wall(GenericWall):
     def __init__(self, x, y):
         super().__init__(x, y, 50, 50, Color(0, 1.0))
-        #print("new wall")
 
-"""             
 # pass thru going up wall
 class Platform(GenericWall):
-    def __init__(self, x, y, actor_list):
-        super().__init__(x, y, 50, 15, 
-                         pygame.Color('red'), actor_list)
-    
+    def __init__(self, x, y):
+        super().__init__(x, y, 50, 15, Color(0xff0000, 1.0))
+"""    
 # super class for anything that falls and lands or bumps into walls
 class GravityActor(Actor):
     def __init__(self, x, y, width, height, actor_list, app):
@@ -186,7 +183,6 @@ class Spring(GravityActor):
 class Platformer(App):
     def __init__(self):
         super().__init__()
-        print("in app init")
         self.p = None
         self.pos = (0,0)
         self.listenKeyEvent("keydown", "w", self.newWall)
