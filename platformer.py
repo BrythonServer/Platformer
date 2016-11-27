@@ -115,12 +115,14 @@ class Turret(GravityActor):
     def step(self):
         super().step()
         self.time += 1
+        """
         if self.time % 100 == 0:
             Bolt(self.direction, 
                  self.x+self.rect.width//2,
                  self.y+10,
                  self.app)
             self.direction *= -1
+            """
 
         
 
