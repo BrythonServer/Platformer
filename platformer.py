@@ -9,6 +9,7 @@ class GenericWall(Sprite):
         super().__init__(
             RectangleAsset(w,h,LineStyle(0,Color(0, 1.0)), color),
             (snapfunc(x), snapfunc(y)))
+        self.center = (0.5, 0.5)
         # destroy any overlapping walls
         collideswith = self.collidingWithSprites(GenericWall)
         if len(collideswith):
@@ -37,6 +38,7 @@ class GravityActor(Sprite):
                 LineStyle(0, Color(0, 1.0)),
                 color),
             (x, y)) 
+        self.center = (0.5, 0.5)
         # destroy self if overlapping with anything
         collideswith = self.collidingWithSprites()
         if len(collideswith):
@@ -82,6 +84,7 @@ class Bolt(Sprite):
         self.direction = direction
         self.app = app
         super().__init__(RectangleAsset(w, h, Color(0x00ffff)),(x-w//2, y-h//2))
+        self.center = (0.5, 0.5)
     
     def step(self):
         self.x += self.direction
@@ -225,10 +228,12 @@ class Platformer(App):
             self.p.step()
         for s in self.FallingSprings:
             s.step()
+            """
         for t in Platformer.getSpritesbyClass(Turret):
             t.step()
         for b in Platformer.getSpritesbyClass(Bolt):
             b.step()
+            """
 
         
 # Execute the application by instantiate and run        
