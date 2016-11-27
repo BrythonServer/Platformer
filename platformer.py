@@ -72,7 +72,7 @@ class GravityActor(Sprite):
         self.vy += 1
         # check for out of bounds
         if self.y > self.app.height:
-            self.destroy()
+            self.app.killMe(self)
 
 # "bullets" to fire from Turrets.
 class Bolt(Sprite):
@@ -87,20 +87,20 @@ class Bolt(Sprite):
         self.x += self.direction
         # check for out of bounds
         if self.x > self.app.width or self.x < 0:
-            self.destroy()
+            self.app.killMe(self)
         # check for any collisions
         hits = self.collidingWithSprites()
         selfdestruct = False
         for target in hits:
             # destroy players and other bolts
             if isinstance(target, Player) or isinstance(target, Bolt):
-                target.destroy()
+                self.app.killMe(target)
             # self destruct on anything but a Turret
             if not isinstance(target, Turret):
                 selfdestruct = True
         if selfdestruct:
-            self.destroy()
-            
+            self.app.killMe(self)
+
 
 # An object that generates bolts (laser shots)
 class Turret(GravityActor):
@@ -191,6 +191,7 @@ class Platformer(App):
         self.listenKeyEvent("keyup", "up arrow", self.stopMoveKey)
         self.listenMouseEvent("mousemove", self.moveMouse)
         self.FallingSprings = []
+        self.KillList = []
 
     def moveMouse(self, event):
         self.pos = (event.x, event.y)
@@ -232,7 +233,11 @@ class Platformer(App):
         for b in Platformer.getSpritesbyClass(Bolt):
             b.step()
             """
-
+        for k in self.KillList:
+            k.destroy()
+            
+    def killMe(self, obj):
+        self.KillList.append(obj)
         
 # Execute the application by instantiate and run        
 app = Platformer()
