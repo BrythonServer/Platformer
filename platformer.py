@@ -149,6 +149,9 @@ class Player(GravityActor):
         if len(springs):
             self.vy = -15
             self.resting = False
+                # check for out of bounds
+        if self.y > self.app.height:
+            self.app.p = None
         super().step()
         
     def move(self, key):
