@@ -74,24 +74,22 @@ class GravityActor(Sprite):
         if self.y > self.app.height:
             self.destroy()
 
-"""
 # "bullets" to fire from Turrets.
-class Bolt(Actor):
-    def __init__(self, direction, x, y, actor_list, app):
+class Bolt(Sprite):
+    def __init__(self, direction, x, y, app):
         w = 15
         h = 5
         self.direction = direction
         self.app = app
-        super().__init__(x-w//2, y-h//2, w, h, actor_list)
+        super().__init__(RectangleAsset(w, h, Color(0x00ffff)),(x-w//2, y-h//2))
     
-    def update(self):
-        self.rect.x += self.direction
-        self.dirty = 1
+    def step(self):
+        self.x += self.direction
         # check for out of bounds
-        if self.x > self.app.screensize[1] or self.x < 0:
+        if self.x > self.app.width or self.x < 0:
             self.destroy()
         # check for any collisions
-        hits = self.overlapping_actors()
+        hits = self.collidingWithSprites()
         selfdestruct = False
         for target in hits:
             # destroy players and other bolts
@@ -103,39 +101,29 @@ class Bolt(Actor):
         if selfdestruct:
             self.destroy()
             
-    def draw(self):
-        pygame.draw.rect(self.image, pygame.Color('purple'), self.image.get_rect())
-        self.dirty = 1
 
 # An object that generates bolts (laser shots)
 class Turret(GravityActor):
-    def __init__(self, x, y, actor_list, app):
+    def __init__(self, x, y, app):
         w = 20
         h = 35
         r = 10
         self.time = 0
         self.direction = 1
         self.body = pygame.Rect((0,2*r,w,h-2*r))
-        super().__init__(x-w//2, y-h//2, w, h, actor_list, app)
+        super().__init__(x-w//2, y-h//2, w, h, Color(0xffff00), app)
         
-    def update(self):
+    def step(self):
         super().update()
         self.time += 1
         if self.time % 100 == 0:
             Bolt(self.direction, 
                  self.x+self.rect.width//2,
                  self.y+10,
-                 self.actors,
                  self.app)
             self.direction *= -1
         
-    def draw(self):
-        color = pygame.Color('orange')
-        pygame.draw.rect(self.image, color, self.body)
-        pygame.draw.circle(self.image, color, (10,10), 10)
-        self.dirty = 1
 
-"""
 # The player class. only one instance of this is allowed.
 class Player(GravityActor):
     def __init__(self, x, y, app):
@@ -150,9 +138,6 @@ class Player(GravityActor):
             self.vy = -15
             self.resting = False
                 # check for out of bounds
-        # check for out of bounds
-        if self.y > self.app.height:
-            self.app.p = None
         super().step()
         
     def move(self, key):
