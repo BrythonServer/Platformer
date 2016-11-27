@@ -236,6 +236,7 @@ class Platformer(App):
             """
         for k in self.KillList:
             k.destroy()
+        self.KillList = []
             
     def killMe(self, obj):
         print("killing ", obj)
