@@ -5,14 +5,9 @@ Try [Platformer on runpython.com](http://runpython.com/?user=BrythonServer&repo=
 
 Controls:
 
-w: create a wall block
-
-s: create a spring
-
-f: create a floor
-
-l: create a laser turret
-
-p: create a player
-
-left, right, up arrow: control player movement
+* w: create a wall block
+* s: create a spring
+* f: create a floor
+* l: create a laser turret
+* p: create a player
+* left, right, up arrow: control player movement
