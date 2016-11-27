@@ -242,6 +242,8 @@ class Platformer(App):
         print("killing ", obj)
         if obj in self.FallingSprings:
             self.FallingSprings.remove(obj)
+        elif obj == self.p:
+            self.p = None
         self.KillList.append(obj)
         
 # Execute the application by instantiate and run        
