@@ -145,7 +145,7 @@ class Player(GravityActor):
 
     def step(self):
         # look for spring collisions
-        springs = self.overlapping_actors(Spring)
+        springs = self.collidingWithSprites(Spring)
         if len(springs):
             self.vy = -15
             self.resting = False
