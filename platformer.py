@@ -227,6 +227,8 @@ class Platformer(App):
             s.step()
         for t in Platformer.getSpritesbyClass(Turret):
             t.step()
+        for b in Platformer.getSpritesbyClass(Bolt):
+            b.step()
 
         
 # Execute the application by instantiate and run        
