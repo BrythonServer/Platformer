@@ -158,19 +158,22 @@ class Player(GravityActor):
         super().update()
         
     def move(self, key):
-        if key == K_LEFT:
+        if key == "left arrow":
             if self.vx > 0:
                 self.vx = 0
             else:
                 self.vx = -5
-        elif key == K_RIGHT:
+        elif key == "right arrow":
             if self.vx < 0:
                 self.vx = 0
             else:
                 self.vx = 5
-        elif key == K_UP and self.resting:
+        elif key == "up arrow" and self.resting:
             self.vy = -10
             self.resting = False
+            
+    def stopMove(self, key):
+        pass
 
   
 # A spring makes the player "bounce" higher than she can jump
