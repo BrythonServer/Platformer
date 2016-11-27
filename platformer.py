@@ -30,7 +30,7 @@ class GravityActor(Sprite):
         self.vx = self.vy = 0
         self.stuck = False
         self.app = app                          # app, need to know
-        self.sitting = False                    # whether resting on wall
+        self.resting = False                    # whether resting on wall
         super().__init__(
             RectangleAsset(
                 width, height, 
@@ -43,8 +43,6 @@ class GravityActor(Sprite):
             self.destroy()
         
     def step(self):
-        # note the original position
-        x, y = self.x, self.y
         # process movement in horizontal direction first
         self.x += self.vx
         collides = self.collidingWithSprites(Wall)
@@ -75,9 +73,6 @@ class GravityActor(Sprite):
         # check for out of bounds
         if self.y > self.app.height:
             self.destroy()
-        # only dirty if we moved
-        if oldpos != self.rect:
-            self.dirty = 1
 
 """
 # "bullets" to fire from Turrets.
