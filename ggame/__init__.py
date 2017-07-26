@@ -1,1 +1,0 @@
-from ggame.ggame import *
