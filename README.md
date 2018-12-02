@@ -1,7 +1,7 @@
 # Platformer
 Demo "platformer" game.
 
-Try [Platformer on runpython.com](http://runpython.com/?user=BrythonServer&repo=Platformer&name=platformer.py).
+Try [Platformer on runpython.org](http://runpython.org/?user=BrythonServer&repo=Platformer&name=platformer.py).
 
 Controls:
 
