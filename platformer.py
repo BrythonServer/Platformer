@@ -63,7 +63,6 @@ class GravityActor(Sprite):
         for collider in collides:
             if self.vy > 0 or self.vy < 0:
                 if self.vy > 0:
-                    print(" positive vy")
                     self.y = collider.y - self.height - 1
                     if not self.resting:
                         self.vx = 0
