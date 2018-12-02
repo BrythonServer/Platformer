@@ -40,9 +40,9 @@ class GravityActor(Sprite):
                 color),
             (x, y)) 
         # destroy self if overlapping with anything
-        collideswith = self.collidingWithSprites()
-        if len(collideswith):
-            self.destroy()
+        #collideswith = self.collidingWithSprites()
+        #if len(collideswith):
+        #    self.destroy()
         
     def step(self):
         # process movement in vertical direction
