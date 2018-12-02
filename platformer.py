@@ -1,4 +1,6 @@
 # Exemplar implementation of the Platformer Project
+# (c) 2018 E. Dennison
+# See: https://github.com/BrythonServer/Platformer
 
 from ggame import App, Sprite, RectangleAsset, LineStyle, Color
    
@@ -247,6 +249,15 @@ class Platformer(App):
             self.p = None
         if not obj in self.KillList:
             self.KillList.append(obj)
+        
+# Display some hints about how to play!
+print("Move your mouse cursor around the graphics screen and:")
+print("w: create a wall block")
+print("s: create a spring")
+print("f: create a floor")
+print("l: create a laser turret")
+print("p: create a player")
+print("left, right, up arrow: control player movement")
         
 # Execute the application by instantiate and run        
 app = Platformer()
