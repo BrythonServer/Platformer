@@ -45,13 +45,25 @@ class GravityActor(Sprite):
         #    self.destroy()
         
     def step(self):
-        # process movement in vertical direction
+        # process movement in horizontal direction first
+        self.x += self.vx
+        collides = self.collidingWithSprites(Wall)
+        collides.extend(self.collidingWithSprites(Platform))
+        for collider in collides:
+            if self.vx > 0 or self.vx < 0:
+                if self.vx > 0:
+                    self.x = collider.x - self.width - 1
+                else:
+                    self.x = collider.x + collider.width + 1
+                self.vx = 0
+        # process movement in vertical direction second
         self.y += self.vy
         collides = self.collidingWithSprites(Wall)
         collides.extend(self.collidingWithSprites(Platform))
         for collider in collides:
             if self.vy > 0 or self.vy < 0:
                 if self.vy > 0:
+                    print(" positive vy")
                     self.y = collider.y - self.height - 1
                     if not self.resting:
                         self.vx = 0
@@ -59,19 +71,9 @@ class GravityActor(Sprite):
                     self.vy = 0
                 # upward collisions for true Wall only
                 elif isinstance(collider, Wall):
-                    self.y = collider.y + collider.height
-                    self.vy = 0
-        # process movement in horizontal direction second
-        self.x += self.vx
-        collides = self.collidingWithSprites(Wall)
-        collides.extend(self.collidingWithSprites(Platform))
-        for collider in collides:
-            if self.vx > 0 or self.vx < 0:
-                if self.vx > 0:
-                    self.x = collider.x - self.width
-                else:
-                    self.x = collider.x + collider.width
-                self.vx = 0
+                    pass
+                    #self.y = collider.y + collider.height
+                    #self.vy = 0
         # adjust vertical velocity for acceleration due to gravity
         self.vy += 1
         # check for out of bounds
@@ -158,7 +160,7 @@ class Player(GravityActor):
             else:
                 self.vx = 5
         elif key == "up arrow" and self.resting:
-            self.vy = -10
+            self.vy = -12
             self.resting = False
             
     def stopMove(self, key):
